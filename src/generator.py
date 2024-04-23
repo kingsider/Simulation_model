@@ -1,8 +1,14 @@
 import numpy as np
 
 def generate_plate(sign_prob: dict[str, float], num_prob: dict[str, float]) -> str:
+
     assert abs(sum(sign_prob.values()) - 1) < 1e-6
     assert abs(sum(num_prob.values()) - 1) < 1e-6
+
+    for value in sign_prob.values():
+        assert 0 <= value <= 1
+    for value in num_prob.values():
+        assert 0 <= value <= 1
 
     plate_sign = ''
     for _ in range(3):
@@ -12,9 +18,6 @@ def generate_plate(sign_prob: dict[str, float], num_prob: dict[str, float]) -> s
     for _ in range(3):
         plate_num += generate_sign(num_prob)
 
-    return plate_sign[0] + plate_num[:3] + plate_sign[1:] + plate_num[3:]
-
-    pass
 def generate_sign(probs: dict[str, float]) -> str:
     generation = np.random.uniform()
 
@@ -27,29 +30,3 @@ def generate_sign(probs: dict[str, float]) -> str:
 
     return None
 
-sign_prob = {'A': 0.085,
-             'B': 0.084,
-             'C': 0.084,
-             'E': 0.083,
-             'H': 0.083,
-             'K': 0.083,
-             'M': 0.083,
-             'O': 0.083,
-             'P': 0.083,
-             'T': 0.083,
-             'X': 0.083,
-             'У': 0.083}
-
-num_prob = {'0': 0.1,
-            '1': 0.1,
-            '2': 0.1,
-            '3': 0.1,
-            '4': 0.1,
-            '5': 0.1,
-            '6': 0.1,
-            '7': 0.1,
-            '8': 0.1,
-            '9': 0.1}
-
-plate_number = generate_plate(sign_prob, num_prob)
-print(plate_number)
