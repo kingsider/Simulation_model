@@ -1,14 +1,16 @@
 import numpy as np
 
+def check_probs(probs: dict[str, float]):
+    for value in probs.values():
+        assert 0 <= value <= 1
+
 def generate_plate(sign_prob: dict[str, float], num_prob: dict[str, float]) -> str:
 
     assert abs(sum(sign_prob.values()) - 1) < 1e-6
     assert abs(sum(num_prob.values()) - 1) < 1e-6
 
-    for value in sign_prob.values():
-        assert 0 <= value <= 1
-    for value in num_prob.values():
-        assert 0 <= value <= 1
+    check_probs(sign_prob)
+    check_probs(num_prob)
 
     plate_sign = ''
     for _ in range(3):
