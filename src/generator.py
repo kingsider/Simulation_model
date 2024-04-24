@@ -1,36 +1,21 @@
 import numpy as np
 
-
 def generate_plate(sign_prob: dict[str, float], num_prob: dict[str, float]) -> str:
-    """
-    Написать функцию для генерации номера вида A000AA
-    В функцию передаются аргументы:
-    1)  sign_prob - словарь, в котором ключи - возможные буквы, которые могут быть на первой, пятой и шестой позициях в номере,
-        а значения - равны вероятностям появления этого символа в номере.
-        Например, sign_prob = { 'A': 0.33, 'B': 0.33, 'C': 0.34, 'D': 0 } - с равной вероятностью в номере могут появиться либо символ 'A' либо символ 'B'.
-        Основное требование - проверка, что сумма всех вероятностей равна 1 в силу нормировки
-    2)  num_prob - словарь, в котором ключи - цифры 0...9, а значения вероятности появления цифры со 2 по 5 позицию включительно
-        Например, num_prob -
-        {   '0': 0.1,
-            '1': '0.1',
-            '2': '0.1' ,
-            '3': '0.1',
-            '4': '0.1',
-            '5': '0.1',
-            '6': '0.1',
-            '7': '0.1',
-            '8': '0.1',
-            '9': '0.1'
-        } - все цифры появляются с равной вероятностью
 
-        Для генерации номера нужно сгенерировать 3 буквы и 3 цифры.
+    assert abs(sum(sign_prob.values()) - 1) < 1e-6
+    assert abs(sum(num_prob.values()) - 1) < 1e-6
 
-        Для этих целей можно использовать функцию, реализованную ниже generate_sign - с ней тоже лучше разобраться, как она работает
+    from utils import check_probs
+    check_probs(sign_prob)
+    check_probs(num_prob)
 
-    :return: строка с номером
-    """
-    pass
+    plate_sign = ''
+    for _ in range(3):
+        plate_sign += generate_sign(sign_prob)
 
+    plate_num = ''
+    for _ in range(3):
+        plate_num += generate_sign(num_prob)
 
 def generate_sign(probs: dict[str, float]) -> str:
     generation = np.random.uniform()
@@ -43,3 +28,4 @@ def generate_sign(probs: dict[str, float]) -> str:
             return key
 
     return None
+
