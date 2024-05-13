@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Optional
+from enum import Enum
+from typing import List, Tuple, Optional
 
 
 @dataclass
@@ -28,3 +29,23 @@ class Transit:
 class RfidDetection:
     rfid_detection_time: float
     rfid_num: Optional[float]
+
+
+class ModelResults:
+    unmatched_transits: list[Transit]
+    matched_transits: list[Transit]
+
+    def __init__(self):
+        self.unmatched_transits = []
+        self.matched_transits = []
+
+
+class _Event(Enum):
+    PHOTO_TRANSIT = 0
+    RFID_DETECTION = 1
+    START_MERGE = 2
+
+
+_EventQueue = List[Tuple[float, _Event, Optional[int]]]
+_Transits = List[Tuple[Transit, int]]
+_RfidDetections = List[Tuple[RfidDetection, int]]
